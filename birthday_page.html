@@ -120,7 +120,7 @@
         }
 
         .lyrics-container.show {
-            max-height: 200px;
+            max-height: 300px;
             opacity: 1;
             margin-top: 1rem;
         }
@@ -481,9 +481,9 @@
 
             <h2 style="margin: 2rem 0; color: #ff758c;">送你一张蛋糕卡</h2>
             <div class="music-player">
-                <p>点击领取蛋糕卡</p>
+                <p>点击领取，凭蛋糕卡可兑换蛋糕一个</p>
                 <div class="player-controls">
-                    <button class="play-btn" id="playBtn">🎂　　 ▶ 　　🎂</button>
+                    <button class="play-btn" id="playBtn">🎂　　 🎁 　　🎂</button>
                 </div>
                 <!-- 新增静态歌词区域 -->
                 <div class="lyrics-container" id="lyricsContainer">
@@ -633,6 +633,11 @@
 
         let isPlaying = false;
 
+        // 新增：页面加载后自动滚动到底部
+        window.addEventListener('load', () => {
+            lyricsContainer.scrollTop = lyricsContainer.scrollHeight;
+        });
+
         playBtn.addEventListener('click', () => {
             if (!isPlaying) {
                 audio.play();
@@ -640,13 +645,18 @@
                 isPlaying = true;
                 showCelebration();
                 // 确保这里正确添加show类
-                lyricsContainer.classList.add('show');
+                if (!lyricsContainer.classList.contains('show')) {
+                    lyricsContainer.classList.add('show');
+                }
+                // 新增：每次打开时也滚动到底部
+                lyricsContainer.scrollTop = lyricsContainer.scrollHeight;
+
             } else {
                 audio.pause();
                 playBtn.textContent = '🎂　　 ▶ 　　🎂';
                 isPlaying = false;
                 // 确保这里正确移除show类
-                lyricsContainer.classList.remove('show');
+                // lyricsContainer.classList.remove('show');
             }
         });
 
@@ -704,7 +714,7 @@
             celebration.style.display = 'block';
             
             // 创建彩色纸屑
-            for (let i = 0; i < 200; i++) {
+            for (let i = 0; i < 50; i++) {
                 const confetti = document.createElement('div');
                 confetti.classList.add('confetti');
                 
